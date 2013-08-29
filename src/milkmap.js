@@ -1,3 +1,6 @@
+$.getScript("mustache.js", function(){
+	
+});
 var map;
 
 var Milk = {};
@@ -22,40 +25,40 @@ var showPosition = function(position) {
     });
 };
 
-function contentwindow(name, address, city, phones, days){
-
-	var contentString = '<div align="right" dir="rtl" id=content>'+
-	'<p align="center" id="name"><b>'+name+'</b></p>'+
-	'<P id="address">'+address+'</P>'+
-	'<p id="city">'+city+'</p>'+
-	'<p id="phone">'+phones+'</p>'+
-	'<table>'+
-		'<tr>'+
-			'<td>יום ראשון: </td>'+
-			'<td id="sunday">'+ days[0] + '</td>'+
-		'</tr>'+
-		'<tr>'+
-			'<td>יום שני: </td>'+
-			'<td id="monday">'+ days[1] + '</td>'+
-		'</tr>'+
-		'<tr>'+
-			'<td>יום שלישי: </td>'+
-			'<td id="tuesday">'+ days[2] + '</td>'+
-		'</tr>'+
-		'<tr>'+
-			'<td>יום רביעי: </td>'+
-			'<td id="wednsday">'+ days[3] + '</td>'+
-		'</tr>'+
-		'<tr>'+
-			'<td>יום חמישי: </td>'+
-			'<td id="thursday">'+ days[4] + '</td>'+
-		'</tr>'+
-		'<tr>'+
-			'<td>יום שישי: </td>'+
-			'<td id="friday">'+ days[5] + '</td>'+
-		'</tr>'+
-	'</table>'+
-'</div>'.replace()
+function contentwindow(views){
+	var contentString = Mustache.render("{{name}} spends {{address}}", view);
+	// var contentString = '<div align="right" dir="rtl" id=content>'+
+	// '<p align="center" id="name"><b>'+name+'</b></p>'+
+	// '<P id="address">'+address+'</P>'+
+	// '<p id="city">'+city+'</p>'+
+	// '<p id="phone">'+phones+'</p>'+
+	// '<table>'+
+		// '<tr>'+
+			// '<td>יום ראשון: </td>'+
+			// '<td id="sunday">'+ days[0] + '</td>'+
+		// '</tr>'+
+		// '<tr>'+
+			// '<td>יום שני: </td>'+
+			// '<td id="monday">'+ days[1] + '</td>'+
+		// '</tr>'+
+		// '<tr>'+
+			// '<td>יום שלישי: </td>'+
+			// '<td id="tuesday">'+ days[2] + '</td>'+
+		// '</tr>'+
+		// '<tr>'+
+			// '<td>יום רביעי: </td>'+
+			// '<td id="wednsday">'+ days[3] + '</td>'+
+		// '</tr>'+
+		// '<tr>'+
+			// '<td>יום חמישי: </td>'+
+			// '<td id="thursday">'+ days[4] + '</td>'+
+		// '</tr>'+
+		// '<tr>'+
+			// '<td>יום שישי: </td>'+
+			// '<td id="friday">'+ days[5] + '</td>'+
+		// '</tr>'+
+	// '</table>'+
+// '</div>'.replace()
 	return contentString;
 }
 
@@ -69,7 +72,7 @@ function processGeoJSON(results) {
 
     var markers = [];
     
-	function doMarker(inlatlng, name, address, city, phones, days){
+	function doMarker(inlatlng, views){
 		var marker = new google.maps.Marker({map: map, position: inlatlng, clickable: true});
  
 		marker.info = new google.maps.InfoWindow({
@@ -78,7 +81,7 @@ function processGeoJSON(results) {
 		
 		google.maps.event.addListener(marker, 'click', function() {
 		infowindow.close();
-	    infowindow.setContent(contentwindow(name, address, city, phones, days));
+	    infowindow.setContent(contentwindow(views));
 	    infowindow.open(map, marker);
 		});
  
@@ -88,7 +91,15 @@ function processGeoJSON(results) {
         var content = results.features[i].properties;
         var coords = results.features[i].geometry.coordinates;
         var latLng = new google.maps.LatLng(coords[1], coords[0]);
-        var marker = doMarker(latLng, content.name, content.address, content.city, content.phones, content.days);
+        
+        var views = {
+        	name : content.name,
+        	address: content.address,
+        	city: content.city,
+        	phones: content.phones,
+        	days: content.days
+        };
+        var marker = doMarker(latLng, views);
 		marker.setMap(map);
         markers.push(marker);
     }

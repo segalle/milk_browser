@@ -1,0 +1,36 @@
+<div align="right" dir="rtl" id=content>
+	<p id="name">קניון מודיעין</p>
+	<P id="address">כליל החורש 16 מודיעין</P>
+	<p id="city">מודיעין</p>
+	<p id="phone">08-9707075</p>
+	<table>
+		<tr>
+			<td>יום ראשון</td>
+			<td id="sunday">sunday</td>
+		</tr>
+		<tr>
+			<td>יום שני</td>
+			<td id="monday">monday</td>
+		</tr>
+		<tr>
+			<td>יום שלישי</td>
+			<td id="tuesday">tuesday</td>
+		</tr>
+		<tr>
+			<td>יום רביעי</td>
+			<td id="wednsday">wednsday</td>
+		</tr>
+		<tr>
+			<td>יום חמישי</td>
+			<td id="thursday">thursday</td>
+		</tr>
+		<tr>
+			<td>יום שישי</td>
+			<td id="friday">friday</td>
+		</tr>
+		<tr>
+			<td>יום שבת</td>
+			<td id="saturday">saturday</td>
+		</tr>
+	</table>
+</div>
