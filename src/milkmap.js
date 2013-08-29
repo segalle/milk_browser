@@ -1,6 +1,3 @@
-$.getScript("mustache.js", function(){
-	
-});
 var map;
 
 var Milk = {};
@@ -26,39 +23,42 @@ var showPosition = function(position) {
 };
 
 function contentwindow(views){
-	var contentString = Mustache.render("{{name}} spends {{address}}", view);
-	// var contentString = '<div align="right" dir="rtl" id=content>'+
-	// '<p align="center" id="name"><b>'+name+'</b></p>'+
-	// '<P id="address">'+address+'</P>'+
-	// '<p id="city">'+city+'</p>'+
-	// '<p id="phone">'+phones+'</p>'+
-	// '<table>'+
-		// '<tr>'+
-			// '<td>יום ראשון: </td>'+
-			// '<td id="sunday">'+ days[0] + '</td>'+
-		// '</tr>'+
-		// '<tr>'+
-			// '<td>יום שני: </td>'+
-			// '<td id="monday">'+ days[1] + '</td>'+
-		// '</tr>'+
-		// '<tr>'+
-			// '<td>יום שלישי: </td>'+
-			// '<td id="tuesday">'+ days[2] + '</td>'+
-		// '</tr>'+
-		// '<tr>'+
-			// '<td>יום רביעי: </td>'+
-			// '<td id="wednsday">'+ days[3] + '</td>'+
-		// '</tr>'+
-		// '<tr>'+
-			// '<td>יום חמישי: </td>'+
-			// '<td id="thursday">'+ days[4] + '</td>'+
-		// '</tr>'+
-		// '<tr>'+
-			// '<td>יום שישי: </td>'+
-			// '<td id="friday">'+ days[5] + '</td>'+
-		// '</tr>'+
-	// '</table>'+
-// '</div>'.replace()
+	var contentString = Mustache.render('<div align="right" dir="rtl" id=content>'+
+	'<p align="center" id="name"><b>{{name}}</b></p>'+
+	'<P id="address"><b>כתובת: </b>{{address}}</P>'+
+	'<p id="city"><b>ישוב: </b>{{city}}</p>'+
+	'<p id="phone"><b>טלפונים: </b>{{phones}}</p>'+
+	'<table>'+
+		'<tr colspan="2">'+
+			'<td><b>שעות פעילות: </b></td>'+
+		'</tr>'+
+		'<tr>'+
+			'<td>יום ראשון: </td>'+
+			'<td id="sunday">{{days.sunday}}</td>'+
+		'</tr>'+
+		'<tr>'+
+			'<td>יום שני: </td>'+
+			'<td id="monday">{{days.monday}}</td>'+
+		'</tr>'+
+		'<tr>'+
+			'<td>יום שלישי: </td>'+
+			'<td id="tuesday">{{days.tuesday}}</td>'+
+		'</tr>'+
+		'<tr>'+
+			'<td>יום רביעי: </td>'+
+			'<td id="wednsday">{{days.wednsday}}</td>'+
+		'</tr>'+
+		'<tr>'+
+			'<td>יום חמישי: </td>'+
+			'<td id="thursday">{{days.thursday}}</td>'+
+		'</tr>'+
+		'<tr>'+
+			'<td>יום שישי: </td>'+
+			'<td id="friday">{{days.friday}}</td>'+
+		'</tr>'+
+	'</table>'+
+	'<p><b>הערות:</b><br>{{notes}}</p>'+
+'</div>', views);
 	return contentString;
 }
 
@@ -97,13 +97,22 @@ function processGeoJSON(results) {
         	address: content.address,
         	city: content.city,
         	phones: content.phones,
-        	days: content.days
+        	days: {
+        		sunday: content.days[0],
+        		monday: content.days[1],
+        		tuesday: content.days[2],
+        		wednsday: content.days[3],
+        		thursday: content.days[4],
+        		friday: content.days[5],
+        	},
+       		notes: content.notes,
+       		owner: content.owner
         };
         var marker = doMarker(latLng, views);
 		marker.setMap(map);
         markers.push(marker);
     }
-    var markerCluster = new MarkerClusterer(map, markers);
+   // var markerCluster = new MarkerClusterer(map, markers);
 
 };
 
@@ -140,15 +149,15 @@ function initialize() {
     }
 
     function handleNoGeolocation(errorFlag) {
-        // TODO: maybe nothing
-        if (errorFlag == true) {
-            alert("Geolocation service failed.");
-            initialLocation = newyork;
-        } else {
-            alert("Your browser doesn't support geolocation. We've placed you in Siberia.");
-            initialLocation = siberia;
-        }
-        map.setCenter(initialLocation);
+        // // TODO: maybe nothing
+        // if (errorFlag == true) {
+            // alert("Geolocation service failed.");
+            // initialLocation = newyork;
+        // } else {
+            // alert("Your browser doesn't support geolocation. We've placed you in Siberia.");
+            // initialLocation = siberia;
+        // }
+        // map.setCenter(initialLocation);
     }
 }
 
